@@ -1,0 +1,20 @@
+# Ignore image datasets
+**/cnn dataset/**
+**/data image big/**
+**/jodi mining/**
+**/jodi mining 2/**
+**/jodi mining 3/**
+**/patch_dataset/**
+**/S2C_MSIL2A_20260210T044931_N0512_R/**
+*.png
+*.jpg
+*.jpeg
+
+
+
+# Ignore shortcuts
+*.lnk
+
+*.xml
+*.safe
+*.jp2
