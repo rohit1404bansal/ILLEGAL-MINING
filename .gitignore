@@ -6,9 +6,15 @@
 **/jodi mining 3/**
 **/patch_dataset/**
 **/S2C_MSIL2A_20260210T044931_N0512_R/**
+**/saved_models/**
+**/inference_output/SITE-03_2023_overlay_georef/**
 *.png
 *.jpg
 *.jpeg
+*.tif
+*.tiff
+*.jp2
+*.safe
 
 
 
