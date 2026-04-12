@@ -32,8 +32,6 @@ Desktop.ini
 
 # App Data and Generated Outputs (Do not push to GitHub)
 /inference_output/
-/plots/
-/failed formula/
 
 # Large Model Weights (Usually too large for Git)
 /saved_models/
