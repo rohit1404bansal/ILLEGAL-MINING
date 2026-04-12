@@ -1,26 +1,40 @@
-# Ignore image datasets
-**/cnn dataset/**
-**/data image big/**
-**/jodi mining/**
-**/jodi mining 2/**
-**/jodi mining 3/**
-**/patch_dataset/**
-**/S2C_MSIL2A_20260210T044931_N0512_R/**
-**/saved_models/**
-**/inference_output/SITE-03_2023_overlay_georef/**
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Datasets and Imagery (Heavy files)
+/cnn dataset/
+/data image big/
+/jodi mining/
+/jodi mining 2/
+/jodi mining 3/
+/patch_dataset/
+*.jp2
+*.tif
+*.tiff
 *.png
 *.jpg
 *.jpeg
-*.tif
-*.tiff
-*.jp2
-*.safe
-
-
-
-# Ignore shortcuts
-*.lnk
-
 *.xml
 *.safe
-*.jp2
+
+# Windows files
+*.lnk
+Thumbs.db
+Desktop.ini
+
+# App Data and Generated Outputs (Do not push to GitHub)
+/inference_output/
+/plots/
+/failed formula/
+
+# Large Model Weights (Usually too large for Git)
+/saved_models/
+*.pth
