@@ -19,9 +19,6 @@ env/
 *.jp2
 *.tif
 *.tiff
-*.png
-*.jpg
-*.jpeg
 *.xml
 *.safe
 
