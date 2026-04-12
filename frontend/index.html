@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MineWatch Engine - Advanced Intelligence</title>
+  
+  <!-- Modern Libraries -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://unpkg.com/three"></script>
+  <script src="//unpkg.com/globe.gl"></script>
+  
+  <!-- Tailwind CSS Configuration for Sci-Fi Themes -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+             dark: 'rgba(10, 15, 22, 0.85)',
+             accent: '#0ea5e9',
+             danger: '#ef4444'
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  
+  <!-- ANIMATED TOAST ALERTS -->
+  <div id="toastContainer"></div>
+  
+  <!-- 3D GLOBE BACKGROUND -->
+  <div id="globeViz"></div>
+  
+  <div class="app-container">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header" data-aos="fade-right">
+        <h2 class="text-2xl font-bold text-white flex items-center">
+          <i class="fas fa-satellite text-accent mr-3"></i> MineWatch
+        </h2>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="#" class="nav-btn active" data-target="home"><i class="fas fa-home"></i> <span>Dashboard</span></a>
+        <a href="#" class="nav-btn" data-target="upload"><i class="fas fa-upload"></i> <span>Ingest Data</span></a>
+        <a href="#" class="nav-btn" data-target="analysis"><i class="fas fa-microchip"></i> <span>AI Analysis</span></a>
+        <a href="#" class="nav-btn" data-target="temporal"><i class="fas fa-chart-area"></i> <span>Temporal Trends</span></a>
+        <a href="#" class="nav-btn" data-target="maps"><i class="fas fa-map-marked-alt"></i> <span>Overlay Result Maps</span></a>
+        <a href="#" class="nav-btn" data-target="comparison"><i class="fas fa-layer-group"></i> <span>Model Comparison</span></a>
+      </nav>
+      
+      <div class="sidebar-footer text-gray-500 mt-auto pt-6 text-sm">
+        <p>MineWatch Engine v4.0</p>
+        <p>Global Intelligence Grid</p>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+      
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!-- PAGE 1: HOME (matches 1_home.py)                          -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <section id="home" class="page-section active glass-hud">
+        <div class="flex items-center justify-center min-h-[80vh] w-full">
+           <div class="hero-content text-center" data-aos="zoom-in" data-aos-duration="1000">
+             <h1 class="text-5xl font-bold mb-4 text-white drop-shadow-lg">MineWatch Engine</h1>
+             <h3 class="subtitle text-xl text-gray-300 mb-8 font-light">Intelligent Satellite Analysis for Illegal Mining Detection</h3>
+             
+             <div class="glass-card shadow-2xl border border-gray-700/50 p-8 rounded-2xl max-w-2xl mx-auto mb-10">
+               <h2 class="text-2xl font-semibold text-accent mb-4"><i class="fas fa-shield-alt mr-2"></i> Welcome to the Dashboard</h2>
+               <p class="text-gray-300 leading-relaxed text-lg">
+                 MineWatch leverages Advanced CNN architectures (EfficientNet-B0) to automate the detection, 
+                 tracking, and temporal analysis of illegal mining footprints using high-resolution Sentinel-2 imagery.
+               </p>
+             </div>
+
+          <!-- 3 real inference images matching 1_home.py -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+            <div class="glass-card shadow-lg p-4 rounded-xl" data-aos="fade-up" data-aos-delay="100">
+              <img id="homeImg1" src="/inference_output/temporal/2021_overlay.png" alt="AI Automated Detections" class="w-full rounded-lg border border-gray-700 mb-3 bg-black" onerror="this.src='https://via.placeholder.com/400x400/10151c/0ea5e9?text=Overlay+Missing';">
+              <p class="text-sm text-gray-400 text-center">AI Automated Detections</p>
+            </div>
+            <div class="glass-card shadow-lg p-4 rounded-xl" data-aos="fade-up" data-aos-delay="200">
+              <img id="homeImg2" src="/inference_output/temporal/fig3_4class_change_map.png" alt="Temporal Change Tracking" class="w-full rounded-lg border border-gray-700 mb-3 bg-black" onerror="this.src='https://via.placeholder.com/400x400/10151c/0ea5e9?text=Change+Map+Missing';">
+              <p class="text-sm text-gray-400 text-center">Temporal Change Tracking</p>
+            </div>
+            <div class="glass-card shadow-lg p-4 rounded-xl" data-aos="fade-up" data-aos-delay="300">
+              <img id="homeImg3" src="/inference_output/temporal/2025_heatmap.png" alt="Probability Heatmaps" class="w-full rounded-lg border border-gray-700 mb-3 bg-black" onerror="this.src='https://via.placeholder.com/400x400/10151c/0ea5e9?text=Heatmap+Missing';">
+              <p class="text-sm text-gray-400 text-center">Probability Heatmaps</p>
+            </div>
+          </div>
+
+          <div class="text-center mb-4">
+            <h3 class="text-xl text-gray-300 mb-4">Ready to analyse new imagery?</h3>
+          </div>
+
+          <button class="btn btn-primary bg-accent hover:bg-sky-400 text-white px-8 py-3 rounded-full font-bold shadow-[0_0_15px_rgba(14,165,233,0.5)] transition-all" id="btnGoUpload">
+            <i class="fas fa-rocket mr-2"></i> Upload & Analyse Files
+          </button>
+        </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!-- PAGE 2: DATA INGESTION (matches 2_upload.py)              -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <section id="upload" class="page-section">
+        <div class="glass-card" data-aos="fade-right">
+          <h2 class="text-3xl font-bold text-white mb-2"><i class="fas fa-upload text-accent mr-3"></i> Upload & Analyse</h2>
+          <p class="text-gray-400 mb-2">Upload one or more <strong>Sentinel-2 JP2 or GeoTIFF files</strong>. Year is auto-detected from the filename.</p>
+          <div class="bg-sky-900/30 border border-sky-700/50 rounded-lg p-3 mb-6 text-sm text-sky-300">
+            <i class="fas fa-info-circle mr-2"></i> Filename format auto-detected: <code class="bg-black/30 px-2 py-0.5 rounded">T45QUE_20230226T044741_TCI_10m.jp2</code> → Year 2023
+          </div>
+          
+          <!-- Interactive Drag & Drop Zone -->
+          <div id="dropZone" class="drop-zone mb-6" data-aos="zoom-in" data-aos-delay="100">
+            <i class="fas fa-cloud-upload-alt text-5xl text-accent mb-4"></i>
+            <h3 class="text-2xl font-medium text-white mb-2">Drop Sentinel-2 JP2 or GeoTIFF files here</h3>
+            <p class="text-gray-400">(multiple files supported)</p>
+            <input type="file" id="fileUpload" class="hidden" accept=".jp2,.tif,.tiff,.png,.jpg" multiple>
+          </div>
+
+          <!-- Dynamic File Table -->
+          <div id="imagePreviewContainer" class="hidden mb-6" data-aos="fade-up">
+            <p class="text-sm text-accent font-semibold mb-2 uppercase tracking-wide"><i class="fas fa-layer-group"></i> Uploaded Files (<span id="fileCountBadge">0</span>)</p>
+            
+            <div class="bg-gray-900/60 rounded-xl border border-gray-700 overflow-hidden mb-4 max-h-60 overflow-y-auto">
+              <table class="w-full text-left text-gray-300 text-sm">
+                <thead class="bg-gray-800 text-gray-400 uppercase text-xs sticky top-0 z-10">
+                  <tr>
+                    <th class="p-3">Filename</th>
+                    <th class="p-3">Size (MB)</th>
+                    <th class="p-3">Detected Year</th>
+                    <th class="p-3">Use Year</th>
+                    <th class="p-3 w-12"></th>
+                  </tr>
+                </thead>
+                <tbody id="uploadFileTableBody" class="divide-y divide-gray-700">
+                  <!-- JS Injected rows -->
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="flex gap-3 mt-4">
+              <button class="btn flex-1 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 rounded-lg border border-gray-600" id="btnAddMoreFiles">
+                 <i class="fas fa-plus mr-2"></i> Add More Files
+              </button>
+              <button class="btn flex-[2] bg-accent text-white font-bold py-3 rounded-lg shadow hover:bg-sky-400" id="btnScanPreview">
+                 <i class="fas fa-rocket mr-2"></i> Run AI Analysis
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!-- PAGE 3: ANALYSIS & REPORTS (matches 3_analysis.py)        -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <section id="analysis" class="page-section">
+        <div class="glass-card mb-6" data-aos="fade-left">
+          <h2 class="text-3xl font-bold text-white"><i class="fas fa-chart-bar text-accent mr-3"></i> Analysis & Reports</h2>
+          <p class="text-gray-400 mt-2">Comprehensive processing results and site-specific risk assessments.</p>
+        </div>
+
+        <!-- No data placeholder -->
+        <div id="analysisNoData" class="glass-card">
+          <div class="bg-sky-900/30 border border-sky-700/50 rounded-lg p-4 text-sky-300">
+            <i class="fas fa-info-circle mr-2"></i> No analysis data found. Please run the AI pipeline from the <strong>Ingest Data</strong> page first.
+          </div>
+        </div>
+
+        <!-- Analysis results (hidden until pipeline runs) -->
+        <div id="analysisResults" style="display:none;">
+          
+          <!-- Execution Control -->
+          <div class="glass-card" data-aos="fade-up">
+            <h3><i class="fas fa-play-circle text-accent mr-2"></i> Execution Control</h3>
+            <button class="btn btn-primary w-full max-w-sm mt-4 bg-accent hover:bg-sky-400 text-white font-bold py-3 rounded-xl shadow-lg transition-all" id="btnRunAnalysis">
+              <i class="fas fa-bolt mr-2"></i> Trigger Inference Override
+            </button>
+            
+            <div id="analysisExecution" style="display: none;" class="mt-6">
+              <div class="progress-container bg-gray-800 rounded-full h-3 overflow-hidden">
+                <div class="progress-bar bg-accent h-full w-0" id="execProgress" style="box-shadow: 0 0 10px var(--accent);"></div>
+              </div>
+              <div class="status-log mt-4 font-mono text-gray-400 bg-gray-900/50 p-4 rounded-xl border border-gray-800 text-sm h-32 overflow-y-auto" id="execStatus"></div>
+            </div>
+          </div>
+          
+          <div id="analysisComplete" style="display: none;" class="mt-6" data-aos="fade-up">
+            <div class="alert alert-success bg-green-900/20 border border-green-500/30 text-green-400 p-4 rounded-xl flex items-center">
+              <i class="fas fa-check-circle mr-3 text-xl"></i> <span id="analysisCompleteMsg">Analysis complete! View the full details below.</span>
+            </div>
+            
+            <!-- Overall Trend Chart (matching 3_analysis.py get_mining_trend_fig) -->
+            <div class="glass-card mt-6">
+              <h3 class="text-xl text-white border-b border-gray-700 pb-3 mb-4"><i class="fas fa-chart-bar text-accent mr-2"></i> Overall Area Trend</h3>
+              <div class="w-full h-64 relative">
+                <canvas id="trendBarChartCanvas"></canvas>
+              </div>
+            </div>
+
+            <!-- Site Intelligence Report -->
+            <div class="glass-card mt-6 border border-gray-700/50 shadow-2xl">
+              <h3 class="text-xl text-white border-b border-gray-700 pb-3 mb-4"><i class="fas fa-clipboard-list text-accent mr-2"></i> Site Intelligence Report</h3>
+              
+              <!-- 3 metric cards matching 3_analysis.py col1,col2,col3 -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700 text-center">
+                  <div class="text-gray-400 text-sm uppercase tracking-wider mb-1">Site Designator</div>
+                  <div class="text-xl font-bold text-white" id="dispSiteId">SITE-01</div>
+                </div>
+                <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700 text-center">
+                  <div class="text-gray-400 text-sm uppercase tracking-wider mb-1" id="footprintLabel">Current Footprint</div>
+                  <div class="text-xl font-bold text-accent" id="currentFootprintVal">-- km²</div>
+                </div>
+                <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700 text-center">
+                  <div class="text-gray-400 text-sm uppercase tracking-wider mb-1" id="expansionLabel">Expansion since baseline</div>
+                  <div class="text-xl font-bold" id="expansionDeltaVal">--</div>
+                  <div class="text-sm" id="expansionPctVal"></div>
+                </div>
+              </div>
+
+              <!-- Risk Profile -->
+              <div class="mb-4 text-lg">
+                <strong>Risk Profile:</strong> <span id="riskProfileLabel">--</span>
+              </div>
+
+              <!-- Yearly Summary Table -->
+              <div class="table-container bg-gray-900/40 rounded-xl border border-gray-700 overflow-hidden">
+                <table class="data-table w-full text-left text-gray-300" id="yearlySummaryTable">
+                  <thead class="bg-gray-800 text-gray-400 text-sm uppercase">
+                    <tr>
+                      <th class="p-3 font-semibold">Year</th>
+                      <th class="p-3 font-semibold">Area (km²)</th>
+                      <th class="p-3 font-semibold">Coverage (%)</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-700">
+                     <tr><td class="p-3 text-center" colspan="3">Awaiting execution run...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <div class="mt-6 flex flex-col md:flex-row gap-4">
+                 <button id="btnDownloadReport" class="btn btn-secondary flex-1 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 rounded-xl border border-gray-600 transition-colors">
+                   <i class="fas fa-file-alt mr-2 text-accent"></i> Download Text Report
+                 </button>
+                 <button id="btnDownloadGPS" class="btn btn-secondary flex-1 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 rounded-xl border border-gray-600 transition-colors">
+                   <i class="fas fa-map-pin mr-2 text-green-400"></i> Download GPS Coordinates (CSV)
+                 </button>
+              </div>
+              
+              <div class="mt-6 border-t border-gray-700 pt-6">
+                 <button id="btnResetPipeline" class="btn w-full bg-red-900/30 hover:bg-red-900/50 text-red-400 font-semibold py-3 rounded-xl border border-red-800/50 transition-colors">
+                   <i class="fas fa-redo-alt mr-2"></i> Reset & Start New Analysis
+                 </button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!-- PAGE 4: TEMPORAL ANALYSIS (matches 4_temporal.py)         -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <section id="temporal" class="page-section">
+        <div class="glass-card" data-aos="fade-down">
+          <h2 class="text-3xl font-bold text-white mb-2"><i class="fas fa-chart-line text-accent mr-3"></i> Temporal Analysis</h2>
+          <p class="text-gray-400">Assess multi-year mining expansion automatically generated from cross-referenced heatmaps.</p>
+        </div>
+        
+        <!-- 4-Tab navigation matching 4_temporal.py -->
+        <div class="glass-card mt-6">
+          <div class="flex border-b border-gray-700 mb-6 overflow-x-auto" id="temporalTabBar">
+            <button class="temporal-tab active px-5 py-3 text-sm font-semibold text-accent border-b-2 border-accent whitespace-nowrap" data-tab="tabExpansion">Expansion Chart</button>
+            <button class="temporal-tab px-5 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent hover:text-gray-200 whitespace-nowrap" data-tab="tabMatrix">Change Detection Matrix</button>
+            <button class="temporal-tab px-5 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent hover:text-gray-200 whitespace-nowrap" data-tab="tabGrowth">Growth Chart</button>
+            <button class="temporal-tab px-5 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent hover:text-gray-200 whitespace-nowrap" data-tab="tabVisual">Visual Analytics</button>
+          </div>
+
+          <!-- Tab 1: Expansion Chart -->
+          <div id="tabExpansion" class="temporal-tab-content active">
+            <div class="w-full h-80 relative">
+              <canvas id="temporalChartCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Tab 2: Change Detection Matrix -->
+          <div id="tabMatrix" class="temporal-tab-content" style="display:none;">
+            <h3 class="text-lg font-bold text-white mb-4">Change Detection Matrix</h3>
+            <div class="bg-gray-900/40 rounded-xl border border-gray-700 overflow-hidden overflow-x-auto">
+              <table class="w-full text-left text-gray-300 text-sm" id="changeMatrixTable">
+                <thead class="bg-gray-800 text-gray-400 text-xs uppercase">
+                  <tr>
+                    <th class="p-3">Year</th>
+                    <th class="p-3">Persistent Area (km²)</th>
+                    <th class="p-3">New Expansion (km²)</th>
+                    <th class="p-3">Recovered Area (km²)</th>
+                    <th class="p-3">Net Area (km²)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-700" id="changeMatrixBody">
+                  <tr><td class="p-3 text-center" colspan="5">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Tab 3: Growth Chart -->
+          <div id="tabGrowth" class="temporal-tab-content" style="display:none;">
+            <div class="w-full h-80 relative">
+              <canvas id="growthChartCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Tab 4: Visual Analytics -->
+          <div id="tabVisual" class="temporal-tab-content" style="display:none;">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+               <div data-aos="fade-right">
+                  <h3 class="text-lg font-bold text-white mb-4"><i class="fas fa-film text-accent mr-2"></i> Mining Expansion Sequence (2021–2025)</h3>
+                  <img src="/inference_output/temporal/expansion_2021_2025.gif" alt="Expansion Timelapse" class="w-full rounded-lg border border-gray-700" onerror="this.src='https://via.placeholder.com/400x400/10151c/ffffff?text=Awaiting+GIF+Pipeline';"/>
+               </div>
+               
+               <div data-aos="fade-left">
+                  <h3 class="text-lg font-bold text-white mb-4"><i class="fas fa-layer-group text-accent mr-2"></i> 4-Class Spatial Change Map</h3>
+                  <div class="flex items-center gap-4 text-xs font-mono uppercase text-gray-300 mb-3">
+                     <span><i class="fas fa-circle text-red-500"></i> New Expansion</span>
+                     <span><i class="fas fa-circle text-blue-500"></i> Persistent Mining</span>
+                     <span><i class="fas fa-circle text-green-500"></i> Recovered</span>
+                  </div>
+                  <img src="/inference_output/temporal/fig3_4class_change_map.png" alt="Spatial Change Matrix" class="w-full rounded-lg border border-gray-700" onerror="this.src='https://via.placeholder.com/400x400/10151c/ffffff?text=Awaiting+4-Class+Map';"/>
+               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Download CSV button matching 4_temporal.py -->
+        <div class="glass-card mt-6">
+          <button id="btnDownloadTemporalCSV" class="btn btn-secondary bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-xl border border-gray-600 transition-colors">
+            <i class="fas fa-download mr-2 text-accent"></i> Download Temporal CSV
+          </button>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!-- PAGE 5: RESULT MAPS (matches 5_result_map.py)             -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <section id="maps" class="page-section">
+        <div class="glass-card mb-6" data-aos="fade-right">
+          <h2 class="text-3xl font-bold text-white mb-2"><i class="fas fa-map text-accent mr-3"></i> Result Map</h2>
+          <p class="text-gray-400">Visual verification of AI detections and probability confidence.</p>
+        </div>
+
+        <!-- No data placeholder -->
+        <div id="mapsNoData" class="glass-card">
+          <div class="bg-sky-900/30 border border-sky-700/50 rounded-lg p-4 text-sky-300">
+            <i class="fas fa-info-circle mr-2"></i> No analysis data found. Please run the AI pipeline from the <strong>Ingest Data</strong> page first.
+          </div>
+        </div>
+        
+        <div id="mapsResults" style="display:none;">
+          <!-- Year Selector (matching 5_result_map.py st.selectbox) -->
+          <div class="glass-card shadow-lg p-6 border border-gray-700 relative" data-aos="zoom-in" data-aos-delay="100">
+            <div class="w-full flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
+               <h3 class="text-xl font-semibold text-white"><i class="fas fa-calendar mr-2 text-accent"></i> Select Year</h3>
+               <div class="flex gap-2 flex-wrap" id="yearSelectorContainer">
+                  <button class="bg-gray-800 text-gray-400 px-4 py-2 rounded-lg border border-gray-700 shadow pointer-events-none">Awaiting Telemetry</button>
+               </div>
+            </div>
+
+            <!-- Overlay / Heatmap Tabs (matching 5_result_map.py tab1, tab2) -->
+            <div class="flex border-b border-gray-700 mb-6" id="mapViewTabBar">
+              <button class="map-view-tab active px-5 py-3 text-sm font-semibold text-accent border-b-2 border-accent" data-tab="tabOverlay">Overlay View (Binary)</button>
+              <button class="map-view-tab px-5 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent hover:text-gray-200" data-tab="tabHeatmap">Heatmap View (Confidence)</button>
+            </div>
+
+            <!-- Overlay Tab -->
+            <div id="tabOverlay" class="map-view-content active">
+              <div class="flex justify-center">
+                <img id="mapOverlayImg" src="" alt="Overlay View" class="max-w-full max-h-[500px] rounded-lg border border-gray-700 bg-black" onerror="this.src='https://via.placeholder.com/600x600/10151c/ef4444?text=Overlay+Not+Found';">
+              </div>
+            </div>
+
+            <!-- Heatmap Tab -->
+            <div id="tabHeatmap" class="map-view-content" style="display:none;">
+              <div class="flex justify-center">
+                <img id="mapHeatmapImg" src="" alt="Heatmap View" class="max-w-full max-h-[500px] rounded-lg border border-gray-700 bg-black" onerror="this.src='https://via.placeholder.com/600x600/10151c/0ea5e9?text=Heatmap+Not+Found';">
+              </div>
+            </div>
+
+            <!-- Per-year metrics (matching 5_result_map.py col1.metric, col2.metric) -->
+            <div class="grid grid-cols-2 gap-6 mt-6">
+              <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700 text-center">
+                <div class="text-gray-400 text-sm uppercase tracking-wider mb-1">Mining Area</div>
+                <div class="text-xl font-bold text-accent" id="mapAreaMetric">-- km²</div>
+              </div>
+              <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700 text-center">
+                <div class="text-gray-400 text-sm uppercase tracking-wider mb-1">Coverage</div>
+                <div class="text-xl font-bold text-white" id="mapCoverageMetric">-- %</div>
+              </div>
+            </div>
+
+            <!-- Coordinates Export (matching 5_result_map.py) -->
+            <div class="mt-6 border-t border-gray-700 pt-4">
+              <h4 class="text-lg font-semibold text-white mb-3"><i class="fas fa-crosshairs text-accent mr-2"></i> Coordinates Export</h4>
+              <button id="btnDownloadYearCSV" class="btn btn-secondary bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg border border-gray-600">
+                <i class="fas fa-download mr-2 text-green-400"></i> Download GPS Coordinates (CSV)
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!-- PAGE 6: MODEL COMPARISON (matches 6_model_comparison.py)  -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <section id="comparison" class="page-section">
+        <div class="glass-card mb-6" data-aos="fade-right">
+          <h2 class="text-3xl font-bold text-white mb-2"><i class="fas fa-balance-scale text-accent mr-3"></i> Model Comparison</h2>
+          <p class="text-gray-400">Extensive architectural benchmark establishing <strong>EfficientNet-B0</strong> as the champion model.</p>
+        </div>
+
+        <!-- 2-Tab navigation matching 6_model_comparison.py -->
+        <div class="glass-card mb-6">
+          <div class="flex border-b border-gray-700 mb-6" id="compTabBar">
+            <button class="comp-tab active px-5 py-3 text-sm font-semibold text-accent border-b-2 border-accent" data-tab="tabPerfMetrics">Performance Metrics</button>
+            <button class="comp-tab px-5 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent hover:text-gray-200" data-tab="tabRadarBench">Radar Benchmark</button>
+          </div>
+
+          <!-- Tab 1: Performance Metrics -->
+          <div id="tabPerfMetrics" class="comp-tab-content active">
+            <h3 class="text-lg font-bold text-white mb-4">Benchmark Results</h3>
+            <!-- Benchmark Table (matching 6_model_comparison.py df) -->
+            <div class="bg-gray-900/40 rounded-xl border border-gray-700 overflow-hidden overflow-x-auto mb-6">
+              <table class="w-full text-left text-gray-300 text-sm" id="benchmarkTable">
+                <thead class="bg-gray-800 text-gray-400 text-xs uppercase">
+                  <tr>
+                    <th class="p-3">Model Architecture</th>
+                    <th class="p-3">Accuracy</th>
+                    <th class="p-3">AUC-ROC</th>
+                    <th class="p-3">F1-Score</th>
+                    <th class="p-3">Precision</th>
+                    <th class="p-3">Recall</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-700" id="benchmarkBody">
+                  <tr><td class="p-3 text-center" colspan="6">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Bar Chart -->
+            <div class="w-full h-80 relative">
+               <canvas id="modelBarChartCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Tab 2: Radar Benchmark -->
+          <div id="tabRadarBench" class="comp-tab-content" style="display:none;">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="md:col-span-1">
+                <h3 class="text-lg font-bold text-white mb-4">Architectural Strengths</h3>
+                <p class="text-gray-300">
+                  <strong>Champion: EfficientNet-B0</strong><br><br>
+                  It achieved the ultimate balance across metrics with an F1-Score of <strong class="text-accent">0.94</strong>.
+                  While Enhanced CNN hit the highest AUC and Recall, EfficientNet-B0 reduced false positives significantly by increasing precision to <strong class="text-accent">0.94</strong>, making it ideal for the highly imbalanced mapping task.
+                </p>
+              </div>
+              <div class="md:col-span-2">
+                <div class="w-full h-96 relative">
+                   <canvas id="modelRadarChartCanvas"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
