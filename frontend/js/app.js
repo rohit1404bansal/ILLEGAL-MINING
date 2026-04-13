@@ -21,39 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     setTimeout(() => world.pointOfView({ altitude: 1.2 }), 0);
 
-    const satData = [{ lat: 10, lng: 0, alt: 0.35 }];
-
-    world.pathsData([
-      [...Array(37).keys()].map(i => ({ lat: 10, lng: i * 10 - 180, alt: 0.35 }))
-    ])
-    .pathPointLat(d => d.lat)
-    .pathPointLng(d => d.lng)
-    .pathPointAlt(d => d.alt)
-    .pathColor(() => 'rgba(14, 165, 233, 0.4)')
-    .pathDashLength(0.01)
-    .pathDashGap(0.005)
-    .pathDashAnimateTime(15000);
-
-    world.htmlElementsData(satData)
-      .htmlElement(d => {
-         const el = document.createElement('div');
-         el.innerHTML = `
-           <div style="transform: translate(-50%, -50%); pointer-events: none;">
-             <img src="https://cdn-icons-png.flaticon.com/512/3069/3069411.png" style="width: 60px; height: 60px; filter: drop-shadow(0px 0px 8px rgba(14,165,233,1)); transform: rotate(45deg);" alt="sat" />
-           </div>
-         `;
-         return el;
-      })
-      .htmlAltitude(d => d.alt);
-
-    const orbitLoop = () => {
-        satData[0].lng += 0.25;
-        if(satData[0].lng > 180) satData[0].lng -= 360;
-        world.htmlElementsData(satData);
-        requestAnimationFrame(orbitLoop);
-    };
-    orbitLoop();
-
     window.addEventListener('resize', () => {
         world.width(window.innerWidth).height(window.innerHeight);
     });
