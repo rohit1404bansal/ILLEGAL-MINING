@@ -330,7 +330,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function populateAnalysisPage() {
     if(!window.pipelineState || window.pipelineState.length === 0) return;
     
-    const sorted = [...window.pipelineState].sort((a,b) => a.year_detected - b.year_detected);
+    const uniqueMap = new Map();
+    window.pipelineState.forEach(r => uniqueMap.set(r.year_detected, r));
+    const sorted = Array.from(uniqueMap.values()).sort((a,b) => a.year_detected - b.year_detected);
     const latest = sorted[sorted.length - 1];
     const baseline = sorted[0];
     
@@ -425,7 +427,9 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast("No analysis data to export.", true);
       return;
     }
-    const sorted = [...state].sort((a,b) => a.year_detected - b.year_detected);
+    const uniqueMap = new Map();
+    state.forEach(r => uniqueMap.set(r.year_detected, r));
+    const sorted = Array.from(uniqueMap.values()).sort((a,b) => a.year_detected - b.year_detected);
     const latest = sorted[sorted.length - 1];
     const val = latest.current_footprint;
     let riskWord = val > 170 ? "CRITICAL" : val > 100 ? "MODERATE" : "LOW";
@@ -537,7 +541,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let years, areas;
     if(window.pipelineState && window.pipelineState.length > 0) {
-      const sorted = [...window.pipelineState].sort((a,b) => a.year_detected - b.year_detected);
+      const uniqueMap = new Map();
+      window.pipelineState.forEach(r => uniqueMap.set(r.year_detected, r));
+      const sorted = Array.from(uniqueMap.values()).sort((a,b) => a.year_detected - b.year_detected);
       years = sorted.map(r => r.year_detected);
       areas = sorted.map(r => r.current_footprint);
     } else {
@@ -627,7 +633,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let years, areas;
     if(window.pipelineState && window.pipelineState.length > 0) {
-      const sorted = [...window.pipelineState].sort((a,b) => a.year_detected - b.year_detected);
+      const uniqueMap = new Map();
+      window.pipelineState.forEach(r => uniqueMap.set(r.year_detected, r));
+      const sorted = Array.from(uniqueMap.values()).sort((a,b) => a.year_detected - b.year_detected);
       years = sorted.map(r => r.year_detected);
       areas = sorted.map(r => r.current_footprint);
     } else {
@@ -710,7 +718,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('mapsNoData').style.display = 'none';
     document.getElementById('mapsResults').style.display = 'block';
     
-    const sorted = [...window.pipelineState].sort((a,b) => a.year_detected - b.year_detected);
+    const uniqueMap = new Map();
+    window.pipelineState.forEach(r => uniqueMap.set(r.year_detected, r));
+    const sorted = Array.from(uniqueMap.values()).sort((a,b) => a.year_detected - b.year_detected);
     
     sorted.forEach((item, index) => {
         const btn = document.createElement('button');
