@@ -22,21 +22,25 @@ flowchart LR
 Maps the logical step-by-step decision flowchart of what happens during the core process (Analysis).
 
 ```mermaid
-flowchart TD
-    Start((Start)) --> Upload[User Uploads JP2/TIF File]
-    Upload --> Load[Streamlit Saves temporary file & Uses Rasterio]
-    Load --> Norm[Normalize Sentinel-2 uint16 limits to 0-255]
-    Norm --> CNN[Run CNN Sliding Window Inference]
-    CNN --> Batching[Slice into 64x64 patches at 32px Stride]
+flowchart LR
+    Start((Start)) --> Upload[Upload JP2/TIF]
+    Upload --> Load[Load via Rasterio]
+    Load --> Norm[Normalize to 0-255]
+    Norm --> CNN[Sliding Window Inference]
+    
+    CNN --> Batching[64x64 patches, 32px Stride]
     Batching --> Model((EfficientNet-B0))
-    Model --> Heatmap[Aggregate Overlapping Pixels to Probability Map]
-    Heatmap --> Threshold{Probability >= User Threshold?}
-    Threshold -- Yes --> Mark[Mark Pixel as Illegal Mining]
-    Threshold -- No --> Ignore[Mark Pixel as Natural Ground]
-    Mark --> Stats[Calculate Geographic Area km²]
-    Ignore --> Stats
-    Stats --> Render[Save UI PNG Overlays & Stash into Session Cache]
-    Render --> End((End))
+    Model --> Heatmap[Aggregate Probability Map]
+    
+    Heatmap --> Threshold{Prob >= 0.6?}
+    Threshold -- Yes --> Mask[Flag Mining Pixel]
+    Threshold -- No --> Ignore[Ignore Pixel]
+    
+    Mask --> GeoRef[Translate to Lat/Lon]
+    Ignore --> GeoRef
+    
+    GeoRef --> Export[Export TIF & CSV]
+    Export --> End((End))
 ```
 
 ## 3. Sequence Diagram
