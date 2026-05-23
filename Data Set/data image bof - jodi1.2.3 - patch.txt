@@ -1,0 +1,1 @@
+data image bof -> jodi1.2.3 -> patch -> cnn (minng or non min using manual approach)
